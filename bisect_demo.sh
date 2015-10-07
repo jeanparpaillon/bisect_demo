@@ -13,6 +13,15 @@ function usage {
     echo "    N: number of commits (default: ${default_n})"
 }
 
+git_v=$(git --version | awk '{print $3}')
+git_major_v=$(echo $git_v | awk -F '.' '{print $1}')
+git_minor_v=$(echo $git_v | awk -F '.' '{print $2}')
+
+if test $git_major_v -lt 2; then
+    echo "E: git $git_v detected. git 2.0 at least is required."
+    exit 1
+fi
+
 n=${default_n}
 if test $# -lt 1; then
     usage
